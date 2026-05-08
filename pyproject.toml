@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "options-analytics"
+version = "0.1.0"
+description = "Black-Scholes pricing, Greeks, implied volatility, and backtesting for options"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+    "yfinance>=0.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "isort", "jupyter"]
+
+[tool.black]
+line-length = 80
+target-version = ["py313"]
+
+[tool.isort]
+profile = "black"

@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Pytest cache
+.pytest_cache/
+
+# Distribution / build
+dist/
+build/
+*.egg-info/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
