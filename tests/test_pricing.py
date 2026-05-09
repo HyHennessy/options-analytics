@@ -1,5 +1,11 @@
+"""
+Tests for options_analytics.pricing — Black-Scholes call and put pricing.
+
+Covers: known values, put-call parity, direct vs parity put agreement,
+monotonicity in stock price, non-negativity, and zero-volatility limits.
+"""
+
 import numpy as np
-import pytest
 
 from options_analytics.pricing import (
     black_scholes_call,
@@ -75,6 +81,15 @@ def test_call_never_negative():
     assert black_scholes_call(200, 100, R, T, SIGMA) >= 0
 
 
+def test_put_never_negative():
+    """
+    A put option price can never be negative.
+    """
+    assert black_scholes_put(50, 100, R, T, SIGMA) >= 0
+    assert black_scholes_put(100, 100, R, T, SIGMA) >= 0
+    assert black_scholes_put(200, 100, R, T, SIGMA) >= 0
+
+
 def test_zero_volatility_call():
     """
     With zero volatility the call price collapses to max(s - k*e^(-rT), 0)
@@ -84,3 +99,14 @@ def test_zero_volatility_call():
     """
     intrinsic = max(55 - K * np.exp(-R * T), 0)
     assert abs(black_scholes_call(55, K, R, T, sigma=1e-10) - intrinsic) < 1e-4
+
+
+def test_zero_volatility_put():
+    """
+    With zero volatility the put price collapses to max(k*e^(-rT) - s, 0)
+    — the present value of the intrinsic value only.
+
+    Test an in-the-money put.
+    """
+    intrinsic = max(K * np.exp(-R * T) - 45, 0)
+    assert abs(black_scholes_put(45, K, R, T, sigma=1e-10) - intrinsic) < 1e-4

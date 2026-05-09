@@ -52,7 +52,7 @@ def black_scholes_put(
     s: float, k: float, r: float, t: float, sigma: float
 ) -> float:
     """
-    Black-Scholes price for a European put option, defined as:
+    Black-Scholes price for a European put option, p, defined as:
 
     p = k*e^(-r*t) * N(-d_2) - s * N(-d_1)
 
@@ -75,8 +75,9 @@ def black_scholes_put_from_parity(
     s: float, k: float, r: float, t: float, sigma: float
 ) -> float:
     """
-    Black-Scholes price for a European put option.
-    Derived from put-call parity: p = c - s + k*e^(-r*t)
+    Black-Scholes price for a European put option via put-call parity, defined as:
+
+    p = c - s + k*e^(-r*t)
 
     Parameters
     ----------
