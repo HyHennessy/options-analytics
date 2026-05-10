@@ -101,8 +101,8 @@ def implied_volatility(
         if abs(price_error) < tolerance:
             return sigma
 
-        # Vega is scaled by 100 in our library — multiply back to get
-        # the raw derivative dC/dsigma for the Newton-Raphson update
+        # vega() returns sensitivity per 1% move in vol (divided by 100).
+        # Newton-Raphson needs the raw dC/dsigma, so multiply back.
         v = vega(s, k, r, t, sigma) * 100
 
         # Guard against vega collapse — deep ITM/OTM options

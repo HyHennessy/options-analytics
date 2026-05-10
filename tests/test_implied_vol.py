@@ -84,10 +84,28 @@ def test_error_message_price_above_stock():
 
 def test_error_message_below_intrinsic():
     """Error message should identify that price is below intrinsic value."""
+    # S=K=100, r=0.05, T=1 → intrinsic = 100 - 100*exp(-0.05) ≈ 4.88
     intrinsic = max(S - K * np.exp(-R * T), 0)
     with pytest.raises(ImpliedVolatilityError) as exc_info:
         implied_volatility(intrinsic - 0.01, s=S, k=K, r=R, t=T)
     assert "intrinsic value" in str(exc_info.value)
+
+
+def test_max_iterations_exceeded_raises():
+    """Solver should raise with 'converge' in the message when iterations are exhausted."""
+    sigma = 0.2
+    price = black_scholes_call(S, K, R, T, sigma)
+    with pytest.raises(ImpliedVolatilityError) as exc_info:
+        implied_volatility(price, S, K, R, T, max_iterations=1)
+    assert "converge" in str(exc_info.value)
+
+
+def test_roundtrip_near_expiry():
+    """Solver should recover volatility for a near-expiry option (t = 1 day)."""
+    sigma = 0.3
+    t = 1 / 365
+    price = black_scholes_call(S, K, R, t, sigma)
+    assert abs(implied_volatility(price, S, K, R, t) - sigma) < 1e-6
 
 
 def test_convergence_tolerance():
