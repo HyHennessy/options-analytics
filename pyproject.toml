@@ -14,10 +14,14 @@ dependencies = [
     "pandas>=2.2",
     "matplotlib>=3.8",
     "yfinance>=0.2",
+    "plotly>=5.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest", "black", "isort", "jupyter"]
+
+[tool.setuptools.packages.find]
+include = ["options_analytics*"]
 
 [tool.black]
 line-length = 80
@@ -25,3 +29,4 @@ target-version = ["py313"]
 
 [tool.isort]
 profile = "black"
+
